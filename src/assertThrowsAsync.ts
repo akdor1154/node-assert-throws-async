@@ -1,38 +1,36 @@
 import assert = require('assert');
 
-export type ErrorCheck<E> = string | RegExp | ((e: E) => boolean|void);
-export type EConstructor<E> = new(...args: any[]) => E;
 
-export async function assertThrows<Error>(
+async function assertThrows<Error>(
 	f: Function,
 ): Promise<void>;
 
-export async function assertThrows<E extends Error = Error> (
+async function assertThrows<E extends Error = Error> (
 	f: Function,
-	errorMessageOrFunction: ErrorCheck<E>
+	errorMessageOrFunction: assertThrows.ErrorCheck<E>
 ): Promise<void>
 
-export async function assertThrows<E extends Error>(
+async function assertThrows<E extends Error>(
 	f: Function,
-	errorType: EConstructor<E>
+	errorType: assertThrows.EConstructor<E>
 ): Promise<void>;
 
 
-export async function assertThrows<E extends Error> (
+async function assertThrows<E extends Error> (
 	f: Function,
-	errorType: EConstructor<E>,
-	errorMessageOrFunction: ErrorCheck<E>
+	errorType: assertThrows.EConstructor<E>,
+	errorMessageOrFunction: assertThrows.ErrorCheck<E>
 ): Promise<void>
 
-export async function assertThrows<E extends Error = Error>(
+async function assertThrows<E extends Error = Error>(
 		f: Function,
-		_arg1?: EConstructor<E> | ErrorCheck<E>, // this is ~= "typeof E"
-		_arg2?: ErrorCheck<E>
+		_arg1?: assertThrows.EConstructor<E> | assertThrows.ErrorCheck<E>, // this is ~= "typeof E"
+		_arg2?: assertThrows.ErrorCheck<E>
 	): Promise<void> {
 	let result: any;
 
-	let errorType: EConstructor<E> | undefined = undefined;
-	let errorCheck: ErrorCheck<E> | undefined = undefined;
+	let errorType: assertThrows.EConstructor<E> | undefined = undefined;
+	let errorCheck: assertThrows.ErrorCheck<E> | undefined = undefined;
 
 	if (!_arg1) {
 		// pass
@@ -78,4 +76,11 @@ export async function assertThrows<E extends Error = Error>(
 	}
 	throw new assert.AssertionError({message: 'Expected to throw', expected: errorType, actual: result});
 }
+
+namespace assertThrows {
+	export type ErrorCheck<E> = string | RegExp | ((e: E) => boolean|void);
+	export type EConstructor<E> = new(...args: any[]) => E;
+}
+
+export = assertThrows;
 

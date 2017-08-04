@@ -1,6 +1,5 @@
 import assert = require('assert');
-import mod = require('../assertThrowsAsync');
-const ASA = mod.assertThrows;
+import ASA = require('../assertThrowsAsync');
 import sms = require('source-map-support');
 sms.install();
 
