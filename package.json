@@ -1,0 +1,25 @@
+{
+  "name": "assert-throws-async",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/assertThrowsAsync.js",
+  "types": "build/assertThrowsAsync.d.ts",
+  "scripts": {
+    "prepare": "tsc",
+    "test": "mocha build/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/akdor1154/node-assert-throws"
+  },
+  "author": "akdor1154",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.19",
+    "@types/source-map-support": "^0.4.0",
+    "mocha": "^3.5.0",
+    "source-map-support": "^0.4.15",
+    "typescript": "^2.4.2"
+  }
+}
