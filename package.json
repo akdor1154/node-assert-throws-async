@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/akdor1154/node-assert-throws"
+    "url": "https://github.com/akdor1154/node-assert-throws-async"
   },
   "author": "akdor1154",
   "license": "ISC",
