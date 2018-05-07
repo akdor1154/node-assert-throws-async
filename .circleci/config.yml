@@ -99,14 +99,20 @@ workflows:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /.*/
       - node8:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /.*/
       - node10:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /.*/
       - publish:
           requires:
             - node6
