@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  node6:
+    docker:
+      - image: circleci/node:6
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: node6-v3-{{checksum "package.json"}}-{{arch}}
+      - run: npm install
+      - save_cache:
+          key: node6-v3-{{checksum "package.json"}}-{{arch}}
+          paths:
+            - node_modules
+
+      - restore_cache:
+          key: node6-build-v1-{{checksum "package.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+      - run: npm run prepare
+      - save_cache:
+          key: node6-build-v1-{{checksum "package.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+          paths:
+            - build
+
+      - run: npm test
+  node8:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: node8-v1-{{checksum "package-lock.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+      - run: npm install
+      - save_cache:
+          key: node8-v1-{{checksum "package-lock.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+          paths:
+            - node_modules
+            - build
+
+      - run: npm test
+  node10:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: node10-v1-{{checksum "package-lock.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+      - run: npm install
+      - save_cache:
+          key: node10-v1-{{checksum "package-lock.json"}}-{{checksum "tsconfig.json"}}-{{arch}}
+          paths:
+            - node_modules
+            - build
+
+      - run: npm test
+workflows:
+  version: 2
+  node:
+    jobs:
+      - node6
+      - node8
+      - node10
