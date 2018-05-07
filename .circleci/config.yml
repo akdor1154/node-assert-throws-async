@@ -1,8 +1,14 @@
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+
 jobs:
   node6:
+    <<: *defaults
+
     docker:
       - image: circleci/node:6
+
     steps:
       - checkout
 
@@ -23,7 +29,10 @@ jobs:
             - build
 
       - run: npm test
+
   node8:
+    <<: *defaults
+
     docker:
       - image: circleci/node:8
     steps:
@@ -39,7 +48,10 @@ jobs:
             - build
 
       - run: npm test
+
   node10:
+    <<: *defaults
+
     docker:
       - image: circleci/node:10
     steps:
@@ -55,6 +67,25 @@ jobs:
             - build
 
       - run: npm test
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+
+  publish:
+    <<: *defaults
+
+    docker:
+      - image: circleci/node:10
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate to NPM
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run: npm publish
+
 workflows:
   version: 2
   node:
@@ -62,3 +93,14 @@ workflows:
       - node6
       - node8
       - node10
+      - publish:
+          requires:
+            - node6
+            - node8
+            - node10
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
