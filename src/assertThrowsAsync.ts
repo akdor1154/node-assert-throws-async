@@ -66,7 +66,7 @@ async function assertThrows<E extends Error = Error>(
 					throw err;
 				}
 			} else if (errorCheck instanceof RegExp) {
-				assert(errorCheck.test(err.message));
+				assert(errorCheck.test(err.message), `"${err.message}" does not match "${errorCheck.source}"`);
 			} else {
 				throw new TypeError('ErrorCheck needs to be a string, (Error) => bool, or regex.')
 			}
