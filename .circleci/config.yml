@@ -90,17 +90,10 @@ workflows:
   version: 2
   test:
     jobs:
-      - node6
       - node8
       - node10
   publish:
     jobs:
-      - node6:
-          filters:
-            tags:
-              only: /.*/
-            branches:
-              ignore: /.*/
       - node8:
           filters:
             tags:
@@ -115,7 +108,6 @@ workflows:
               ignore: /.*/
       - publish:
           requires:
-            - node6
             - node8
             - node10
           filters:
