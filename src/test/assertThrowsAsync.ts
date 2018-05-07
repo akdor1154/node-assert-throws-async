@@ -123,7 +123,7 @@ function runTests(niceFunction: () => void, naughtyFunction: () => void, special
 		try {
 			await ASA(specialFunction, (e) => {
 				throw new ConditionFailed();
-			}); 
+			});
 		} catch (e) {
 			assert(e instanceof ConditionFailed);
 			return;
@@ -228,5 +228,5 @@ describe('asynchronous throwing', () => {
 	}
 
 	runTests(niceFunction, naughtyFunction, specialFunction);
-	
+
 })
