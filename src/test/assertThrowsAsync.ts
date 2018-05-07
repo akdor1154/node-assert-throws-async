@@ -21,6 +21,21 @@ function runTests(niceFunction: () => void, naughtyFunction: () => void, special
 		assert.strictEqual(run, true);
 	});
 
+	it('should catch a function that throws by regex', async () => {
+		await ASA(naughtyFunction, /catch me/);
+		assert.strictEqual(run, true);
+	});
+
+	it('should throw a useful message when a function throws that doesn\'t match a passed regex', async () => {
+		try {
+			await ASA(naughtyFunction, /can't catch me/);
+		} catch (e) {
+			assert.strictEqual(e.message, '"catch me" does not match "can\'t catch me"');
+			return;
+		}
+		assert.fail('Did not catch');
+	})
+
 
 	it('should catch a function that throws a special error', async () => {
 		await ASA(specialFunction);
@@ -99,7 +114,7 @@ function runTests(niceFunction: () => void, naughtyFunction: () => void, special
 	it('should catch a function that throws by throwing function', async () => {
 		await ASA(specialFunction, (e) => {
 			compared = true;
-			assert.equal(e.message, 'catch me'); 
+			assert.equal(e.message, 'catch me');
 		});
 
 		assert(compared);
