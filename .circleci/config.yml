@@ -88,11 +88,25 @@ jobs:
 
 workflows:
   version: 2
-  node:
+  test:
     jobs:
       - node6
       - node8
       - node10
+  publish:
+    jobs:
+      - node6:
+          filters:
+            tags:
+              only: /.*/
+      - node8:
+          filters:
+            tags:
+              only: /.*/
+      - node10:
+          filters:
+            tags:
+              only: /.*/
       - publish:
           requires:
             - node6
